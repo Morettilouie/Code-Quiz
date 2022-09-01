@@ -26,7 +26,8 @@ var questions = [
     },
 ];
 
-var quizID = document.querySelector("#quiz-id");
+var quizID = document.querySelector("#quiz-page");
+var resultDiv = document.querySelector("#resultDiv");
 
 var timerContainer = document.querySelector(".counter");
 var timer = timerContainer.querySelector(".timer");
@@ -45,14 +46,14 @@ function cycleQuestions(index) {
     // clears existing text
     questionsEl.innerHTML = "";
     answersEl.innerHTML = "";
-    
+
     // cycle through questions and answers
     // for (var i = 0; i < questions.length; i++) {
-        var question = questions[index].title;
-        var options = questions[index].choices;
-        questionDisplay.textContent = question;
+    var question = questions[index].title;
+    var options = questions[index].choices;
+    questionDisplay.textContent = question;
     // }
-    options.forEach(function(item) {
+    options.forEach(function (item) {
         var answerDisplay = document.createElement("button");
         answerDisplay.setAttribute("class", "choices");
         answerDisplay.setAttribute("value", item);
@@ -62,15 +63,15 @@ function cycleQuestions(index) {
         answersEl.appendChild(answerDisplay);
         answerDisplay.addEventListener("click", checkAnswer)
     })
-    
+
 }
 
 function checkAnswer(event) {
+    resultDiv.textContent = "";
+
     var click = event.target;
-    console.log("test");
     if (click.matches(".choices")) {
-        var resultDiv = document.createElement("div");
-        resultDiv.setAttribute("id", "resultDiv");
+        
 
         // if correct
         if (click.value == questions[index].answer) {
@@ -80,17 +81,18 @@ function checkAnswer(event) {
         else {
             time = time - penalty;
             resultDiv.textContent = "Wrong! the answer is " + questions[index].answer;
+            quizID.appendChild(resultDiv);
         }
     }
 
     // add 1 to move to the next question
-    // index++;
+    index++;
 
     if (index >= questions.length) {
         // done with quiz
 
     } else {
-        cycleQuestions()
+        cycleQuestions(index)
     }
 }
 
@@ -98,7 +100,7 @@ function startQuiz() {
     document.querySelector("#start").classList.add("hide");
     timer.textContent = time;
 
-    cycleQuestions()
+    cycleQuestions(index)
 }
 
 var startBtn = document.querySelector("#start-button");
