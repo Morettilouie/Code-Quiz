@@ -40,6 +40,7 @@ var answerDisplay = document.createElement("button");
 var time = 75;
 var penalty = 10;
 
+var correctAnswers = 0;
 var index = 0;
 
 function cycleQuestions(index) {
@@ -47,12 +48,12 @@ function cycleQuestions(index) {
     questionsEl.innerHTML = "";
     answersEl.innerHTML = "";
 
-    // cycle through questions and answers
-    // for (var i = 0; i < questions.length; i++) {
+    // cycle through questions
     var question = questions[index].title;
     var options = questions[index].choices;
     questionDisplay.textContent = question;
-    // }
+
+    // shows all options for each question
     options.forEach(function (item) {
         var answerDisplay = document.createElement("button");
         answerDisplay.setAttribute("class", "choices");
@@ -71,11 +72,12 @@ function checkAnswer(event) {
 
     var click = event.target;
     if (click.matches(".choices")) {
-        
+
 
         // if correct
         if (click.value == questions[index].answer) {
             resultDiv.textContent = "Correct! The answer is " + questions[index].answer;
+            correctAnswers++
             quizID.appendChild(resultDiv);
         } // if incorrect
         else {
@@ -90,18 +92,50 @@ function checkAnswer(event) {
 
     if (index >= questions.length) {
         // done with quiz
+        clearInterval(timeRemaining);
+        timer.textContent = "Your score is: " + time;
+        quizFinished()
 
     } else {
         cycleQuestions(index)
     }
 }
 
+function clock() {
+    timeRemaining = setInterval(function () {
+        time--;
+        timer.textContent = "Time remaining: " + time;
+        if (time <= 0) {
+            clearInterval(timeRemaining);
+            timer.textContent = "Out of time!"
+            quizFinished()
+        }
+    }, 1000);
+}
+
+function quizFinished() {
+    document.querySelector("#quiz-page").classList.add("hide");
+    document.querySelector("#highscore").classList.remove("hide");
+
+}
+
 function startQuiz() {
     document.querySelector("#start").classList.add("hide");
-    timer.textContent = time;
 
+    clock();
     cycleQuestions(index)
 }
+
+var highscore = document.querySelector("#highscore")
+var submitHighscores = highscore.querySelector(".submit-highscore")
+submitHighscores.addEventListener("click", function () {
+    console.log("hello");
+    var initials = document.querySelector(".initials").value;
+    console.log(initials)
+    if (initials === "") {
+        alert("No value entered!");
+    }
+})
 
 var startBtn = document.querySelector("#start-button");
 startBtn.addEventListener("click", startQuiz);
