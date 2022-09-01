@@ -12,6 +12,6 @@ Whatever the time left when the user finishes the question is their score and th
 
 After submitting their initials the user is taken to the leaderboard where they can choose to clear the board or try the quiz again.
 
-<img src="./assets/images/code-quiz-screenshot.png" alt="Screen shot of Weather Dashboard"/>
+<img src="./assets/images/code-quiz-screenshot.png.htm" alt="Screen shot of Weather Dashboard"/>
 
 <a href="https://morettilouie.github.io/Code-Quiz/">Live URL from github</a>
