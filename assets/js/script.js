@@ -26,6 +26,8 @@ var questions = [
     },
 ];
 
+var quizID = document.querySelector("#quiz-id");
+
 var timerContainer = document.querySelector(".counter");
 var timer = timerContainer.querySelector(".timer");
 
@@ -39,7 +41,7 @@ var penalty = 10;
 
 var index = 0;
 
-function cycleQuestions() {
+function cycleQuestions(index) {
     // clears existing text
     questionsEl.innerHTML = "";
     answersEl.innerHTML = "";
@@ -60,18 +62,20 @@ function cycleQuestions() {
         answersEl.appendChild(answerDisplay);
         answerDisplay.addEventListener("click", checkAnswer)
     })
+    
 }
 
 function checkAnswer(event) {
     var click = event.target;
     console.log("test");
-    if (click.matches("button")) {
+    if (click.matches(".choices")) {
         var resultDiv = document.createElement("div");
         resultDiv.setAttribute("id", "resultDiv");
 
         // if correct
         if (click.value == questions[index].answer) {
             resultDiv.textContent = "Correct! The answer is " + questions[index].answer;
+            quizID.appendChild(resultDiv);
         } // if incorrect
         else {
             time = time - penalty;
@@ -80,13 +84,13 @@ function checkAnswer(event) {
     }
 
     // add 1 to move to the next question
-    index++;
+    // index++;
 
     if (index >= questions.length) {
         // done with quiz
 
     } else {
-        cycleQuestions
+        cycleQuestions()
     }
 }
 
