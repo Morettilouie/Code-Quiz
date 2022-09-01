@@ -26,6 +26,14 @@ var questions = [
     },
 ];
 
+var questionsEl = document.querySelector(".questionContainer");
+var questionDisplay = questionsEl.querySelector(".questionDisplay");
+var answersEl = questionsEl.querySelector(".answersContainer");
+var answerDisplay = document.createElement("li");
+
+var time = 75;
+var penalty = 10;
+
 var index = 0;
 
 function cycleQuestions() {
@@ -34,23 +42,49 @@ function cycleQuestions() {
     answersEl. innerHTML = "";
     
     // cycle through questions and answers
-    for (var i = 0; i < questions.length; i++) {
+    // for (var i = 0; i < questions.length; i++) {
         var question = questions[index].title;
         var options = questions[index].choices;
         questionDisplay.textContent = question;
-    }
+    // }
     options.forEach(function(item) {
-        var listEl = document.createElement("li");
-        listEl.textContent = item;
+        var answerDisplay = document.createElement("li");
+        answerDisplay.textContent = item;
         questionsEl.appendChild(questionDisplay);
         questionsEl.appendChild(answersEl);
-        answersEl.appendChild(listEl)
+        answersEl.appendChild(answerDisplay);
+        answerDisplay.addEventListener("click", checkAnswer)
     })
 }
 
-var questionsEl = document.querySelector(".questionContainer");
-var questionDisplay = questionsEl.querySelector(".questionDisplay");
-var answersEl = questionsEl.querySelector(".answersContainer")
+function checkAnswer(event) {
+    var click = event.target;
+
+    if (click.matches("li")) {
+        var resultDiv = document.createElement("div");
+        resultDiv.setAttribute("id", "resultDiv");
+
+        // if correct
+        if (click.textContent == questions[index].answer) {
+            resultDiv.textContent = "Correct! The answer is " + questions[index].answer;
+        } // if incorrect
+        else {
+            time = time - penalty;
+            resultDiv.textContent = "Wrong! the answer is " + questions[index].answer;
+        }
+    }
+
+    // add 1 to move to the next question
+    index++;
+
+    if (index >= questions.length) {
+        // done with quiz
+
+    } else {
+        cycleQuestions
+    }
+}
+
 function startQuiz() {
     document.querySelector("#start").classList.add("hide");
 
