@@ -26,10 +26,13 @@ var questions = [
     },
 ];
 
+var timerContainer = document.querySelector(".counter");
+var timer = timerContainer.querySelector(".timer");
+
 var questionsEl = document.querySelector(".questionContainer");
 var questionDisplay = questionsEl.querySelector(".questionDisplay");
 var answersEl = questionsEl.querySelector(".answersContainer");
-var answerDisplay = document.createElement("li");
+var answerDisplay = document.createElement("button");
 
 var time = 75;
 var penalty = 10;
@@ -39,7 +42,7 @@ var index = 0;
 function cycleQuestions() {
     // clears existing text
     questionsEl.innerHTML = "";
-    answersEl. innerHTML = "";
+    answersEl.innerHTML = "";
     
     // cycle through questions and answers
     // for (var i = 0; i < questions.length; i++) {
@@ -48,7 +51,9 @@ function cycleQuestions() {
         questionDisplay.textContent = question;
     // }
     options.forEach(function(item) {
-        var answerDisplay = document.createElement("li");
+        var answerDisplay = document.createElement("button");
+        answerDisplay.setAttribute("class", "choices");
+        answerDisplay.setAttribute("value", item);
         answerDisplay.textContent = item;
         questionsEl.appendChild(questionDisplay);
         questionsEl.appendChild(answersEl);
@@ -59,13 +64,13 @@ function cycleQuestions() {
 
 function checkAnswer(event) {
     var click = event.target;
-
-    if (click.matches("li")) {
+    console.log("test");
+    if (click.matches("button")) {
         var resultDiv = document.createElement("div");
         resultDiv.setAttribute("id", "resultDiv");
 
         // if correct
-        if (click.textContent == questions[index].answer) {
+        if (click.value == questions[index].answer) {
             resultDiv.textContent = "Correct! The answer is " + questions[index].answer;
         } // if incorrect
         else {
@@ -87,6 +92,7 @@ function checkAnswer(event) {
 
 function startQuiz() {
     document.querySelector("#start").classList.add("hide");
+    timer.textContent = time;
 
     cycleQuestions()
 }
