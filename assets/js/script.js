@@ -117,6 +117,62 @@ function quizFinished() {
     document.querySelector("#quiz-page").classList.add("hide");
     document.querySelector("#highscore").classList.remove("hide");
 
+    var highscore = document.querySelector("#highscore")
+    var submitHighscores = highscore.querySelector(".submit-highscore")
+    submitHighscores.addEventListener("click", function () {
+        var initials = document.querySelector(".initials").value;
+        if (initials === "") {
+            alert("No value entered!");
+        } else {
+            var score = {
+                initials: initials,
+                points: time
+            }
+            console.log(score);
+            var leaderBoard = localStorage.getItem("leaderBoard");
+            if (leaderBoard === null) {
+                leaderBoard = [];
+            } else {
+                leaderBoard = JSON.parse(leaderBoard);
+            }
+            leaderBoard.push(score);
+            var addScore = JSON.stringify(leaderBoard);
+            localStorage.setItem("leaderBoard", addScore);
+            // show leaderboard
+            viewLeaderboard()
+        }
+    })
+}
+
+function viewLeaderboard() {
+    document.querySelector("#highscore").classList.add("hide");
+    document.querySelector("#list-highscores").classList.remove("hide");
+
+    var clearScores = document.querySelector(".clear-scores")
+    clearScores.addEventListener("click", function() {
+        localStorage.clear();
+    })
+
+    // Retreives local stroage 
+var leaderBoard = localStorage.getItem("leaderBoard");
+leaderBoard = JSON.parse(leaderBoard);
+
+if (leaderBoard !== null) {
+
+    for (var i = 0; i < leaderBoard.length; i++) {
+
+        var createLi = document.createElement("li");
+        createLi.textContent = leaderBoard[i].initials + " " + leaderBoard[i].points;
+        listHighscores = document.querySelector("#list-highscores");
+        listHighscores.appendChild(createLi);
+
+    }
+}
+
+var restart = document.querySelector(".restart")
+    restart.addEventListener("click", function() {
+        window.location.reload();
+    })
 }
 
 function startQuiz() {
@@ -125,17 +181,6 @@ function startQuiz() {
     clock();
     cycleQuestions(index)
 }
-
-var highscore = document.querySelector("#highscore")
-var submitHighscores = highscore.querySelector(".submit-highscore")
-submitHighscores.addEventListener("click", function () {
-    console.log("hello");
-    var initials = document.querySelector(".initials").value;
-    console.log(initials)
-    if (initials === "") {
-        alert("No value entered!");
-    }
-})
 
 var startBtn = document.querySelector("#start-button");
 startBtn.addEventListener("click", startQuiz);
