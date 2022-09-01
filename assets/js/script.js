@@ -93,7 +93,7 @@ function checkAnswer(event) {
     if (index >= questions.length) {
         // done with quiz
         clearInterval(timeRemaining);
-        timer.textContent = "Your score is: " + time;
+        timer.textContent = "You got " + correctAnswers + " answers correct! Your score is: " + time;
         quizFinished()
 
     } else {
@@ -128,7 +128,6 @@ function quizFinished() {
                 initials: initials,
                 points: time
             }
-            console.log(score);
             var leaderBoard = localStorage.getItem("leaderBoard");
             if (leaderBoard === null) {
                 leaderBoard = [];
@@ -145,34 +144,7 @@ function quizFinished() {
 }
 
 function viewLeaderboard() {
-    document.querySelector("#highscore").classList.add("hide");
-    document.querySelector("#list-highscores").classList.remove("hide");
-
-    var clearScores = document.querySelector(".clear-scores")
-    clearScores.addEventListener("click", function() {
-        localStorage.clear();
-    })
-
-    // Retreives local stroage 
-var leaderBoard = localStorage.getItem("leaderBoard");
-leaderBoard = JSON.parse(leaderBoard);
-
-if (leaderBoard !== null) {
-
-    for (var i = 0; i < leaderBoard.length; i++) {
-
-        var createLi = document.createElement("li");
-        createLi.textContent = leaderBoard[i].initials + " " + leaderBoard[i].points;
-        listHighscores = document.querySelector("#list-highscores");
-        listHighscores.appendChild(createLi);
-
-    }
-}
-
-var restart = document.querySelector(".restart")
-    restart.addEventListener("click", function() {
-        window.location.reload();
-    })
+    document.location.replace("./highscores.html");
 }
 
 function startQuiz() {
