@@ -108,7 +108,7 @@ function clock() {
         if (time <= 0) {
             clearInterval(timeRemaining);
             timer.textContent = "Out of time!"
-            quizFinished()
+            viewLeaderboard()
         }
     }, 1000);
 }

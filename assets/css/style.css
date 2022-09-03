@@ -1,3 +1,16 @@
 .hide {
     display: none
 }
+button {
+    padding: 10px;
+    background-color: rgb(89, 11, 163);
+    color: white;
+    border: 0px;
+    border-radius: 15px;
+}
+button:hover {
+    background-color: rgb(179, 103, 251);
+}
+.choices {
+    margin: 0 8px;
+}
